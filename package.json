@@ -1,7 +1,7 @@
 {
   "name": "AT Lazy Loader",
   "version": "1.0.0",
-  "description": "lazy loads assets",
+  "description": "Lazy loads assets into a Wordpress Site",
   "author": "Asen Technology",
   "homepage": "https://www.asentechnology.com",
   "license": "ISC",
