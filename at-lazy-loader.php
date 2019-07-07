@@ -7,15 +7,10 @@
  * Author URI: https://www.asentechnology.com
  */
 
-add_action('wp_enqueue_scripts', 'enqueue_at_lazy_loader_script');
+define('AT_LAZY_LOADER_URL', plugin_dir_url(__FILE__));
+define('AT_LAZY_LOADER_DIR', plugin_dir_path(__FILE__));
 
-function enqueue_at_lazy_loader_script()
-{
-    wp_enqueue_script(
-        'at-lazy-loader-script',
-        plugin_dir_url(__FILE__) . 'at-lazy-loader.js',
-        array(),
-        '',
-        true
-    );
-}
+require AT_LAZY_LOADER_DIR . '/models/AT_Lazy_Loader.php';
+require AT_LAZY_LOADER_DIR . '/models/AT_Lazy_Load_Images.php';
+
+new AT_Lazy_Loader();
