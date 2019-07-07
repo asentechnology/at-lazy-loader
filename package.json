@@ -1,0 +1,12 @@
+{
+  "name": "AT Lazy Loader",
+  "version": "1.0.0",
+  "description": "lazy loads assets",
+  "author": "Asen Technology",
+  "homepage": "https:www.asentechnology.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.11.2",
+    "prettier": "^1.18.2"
+  }
+}
