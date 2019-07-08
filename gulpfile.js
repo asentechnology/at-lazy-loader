@@ -14,17 +14,17 @@ gulp.task('js', () =>
       })
     )
     .pipe(browserify())
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(destination))
 )
 
-gulp.task('php', function () {
-  return gulp.src('src/php/**/*').pipe(gulp.dest(destination))
+gulp.task('files', function () {
+  return gulp.src('src/files/**/*').pipe(gulp.dest(destination))
 })
 
 gulp.task('watch', function () {
   gulp.watch('src/js/**/*', gulp.series('js'))
-  gulp.watch('src/php/**/*', gulp.series('php'))
+  gulp.watch('src/files/**/*', gulp.series('files'))
 })
 
-gulp.task('build', gulp.series('js', 'php'))
+gulp.task('build', gulp.series('js', 'files'))
