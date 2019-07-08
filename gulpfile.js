@@ -14,7 +14,7 @@ gulp.task('js', () =>
       })
     )
     .pipe(browserify())
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(destination))
 )
 

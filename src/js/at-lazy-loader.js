@@ -1,3 +1,5 @@
+var Promise = require('es6-promise-polyfill').Promise
+
 class LazyLoadingImages {
   constructor () {
     this.images = {
@@ -8,6 +10,7 @@ class LazyLoadingImages {
     }
 
     this.sortImages()
+
     this.loadGroupOneImages().then(() => {
       this.loadGroupTwoImages().then(() => {
         this.loadGroupThreeImages().then(() => {
@@ -20,6 +23,7 @@ class LazyLoadingImages {
   sortImages () {
     const viewportHeight = window.innerHeight
     const images = document.getElementsByTagName('img')
+
     for (var i = 0; i < images.length; i++) {
       const position = images[i].getBoundingClientRect()
 
@@ -82,7 +86,7 @@ class LazyLoadingImages {
 
   loadImage (image) {
     return new Promise((resolve, reject) => {
-      image.setAttribute('src', image.getAttribute('data-at-lazy-src'))
+      image.setAttribute('src', image.getAttribute('data-at-lazy-load-src'))
       image.addEventListener('load', e => resolve(image))
     })
   }
