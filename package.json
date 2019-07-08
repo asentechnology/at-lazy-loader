@@ -1,10 +1,14 @@
 {
-  "name": "AT Lazy Loader",
+  "name": "at-lazy-loader",
   "version": "1.0.0",
   "description": "Lazy loads assets into a Wordpress Site",
   "author": "Asen Technology",
   "homepage": "https://www.asentechnology.com",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mcmanussean/at-lazy-loader.git"
+  },
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp build"
@@ -13,11 +17,16 @@
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.0",
     "@prettier/plugin-php": "^0.11.2",
-    "eslint": "^6.0.1",
+    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-browserify": "^0.5.1",
-    "prettier": "^1.18.2"
+    "gulp-uglify": "^3.0.2",
+    "prettier": "^1.17.1"
   }
 }
