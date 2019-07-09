@@ -2,91 +2,58 @@ var Promise = require('es6-promise-polyfill').Promise
 
 class LazyLoadingImages {
   constructor () {
-    this.images = {
-      groupOne: [],
-      groupTwo: [],
-      groupThree: [],
-      groupFour: []
-    }
+    this.images = []
+
+    this.start = new Date().getTime()
 
     this.sortImages()
 
-    this.loadGroupOneImages().then(() => {
-      this.loadGroupTwoImages().then(() => {
-        this.loadGroupThreeImages().then(() => {
-          this.loadGroupFourImages()
-        })
-      })
-    })
+    this.loadImages(0)
   }
 
   sortImages () {
+    let sortedImages = {}
+
     const viewportHeight = window.innerHeight
+
     const images = document.getElementsByTagName('img')
-
     for (var i = 0; i < images.length; i++) {
-      const position = images[i].getBoundingClientRect()
+      const position = Math.floor(
+        Math.abs(images[i].getBoundingClientRect().y / 1000)
+      )
 
-      switch (true) {
-        case (position.bottom > 0 && position.bottom < viewportHeight) ||
-          (position.top > 0 && position.top < viewportHeight):
-          this.images.groupOne.push(images[i])
-          break
+      sortedImages[position] = sortedImages[position] || []
+      sortedImages[position].push(images[i])
+    }
 
-        case (-viewportHeight < position.bottom &&
-          position.bottom < viewportHeight * 2) ||
-          (-viewportHeight < position.top && position.top < viewportHeight * 2):
-          this.images.groupTwo.push(images[i])
-          break
+    this.images = Object.values(sortedImages)
+  }
 
-        case (-viewportHeight * 2 < position.bottom &&
-          position.bottom < viewportHeight * 3) ||
-          (-viewportHeight * 2 < position.top &&
-            position.top < viewportHeight * 3):
-          this.images.groupThree.push(images[i])
-          break
+  loadImages (group) {
+    let promises = []
 
-        default:
-          this.images.groupFour.push(images[i])
+    const groupImages = this.images[group]
+
+    for (var i = 0; i < groupImages.length; i++) {
+      promises.push(this.loadImage(groupImages[i]))
+    }
+
+    Promise.all(promises).then(() => {
+      console.log(
+        'group ' + group + ' loaded ',
+        (new Date().getTime() - this.start) / 1000
+      )
+
+      if (this.images[group + 1]) {
+        this.loadImages(group + 1)
       }
-    }
-  }
-
-  loadGroupOneImages () {
-    let promises = []
-    for (var i = 0; i < this.images.groupOne.length; i++) {
-      promises.push(this.loadImage(this.images.groupOne[i]))
-    }
-    return Promise.all(promises)
-  }
-
-  loadGroupTwoImages () {
-    let promises = []
-    for (var i = 0; i < this.images.groupTwo.length; i++) {
-      promises.push(this.loadImage(this.images.groupTwo[i]))
-    }
-    return Promise.all(promises)
-  }
-
-  loadGroupThreeImages () {
-    let promises = []
-    for (var i = 0; i < this.images.groupThree.length; i++) {
-      promises.push(this.loadImage(this.images.groupThree[i]))
-    }
-    return Promise.all(promises)
-  }
-
-  loadGroupFourImages () {
-    let promises = []
-    for (var i = 0; i < this.images.groupFour.length; i++) {
-      promises.push(this.loadImage(this.images.groupFour[i]))
-    }
-    return Promise.all(promises)
+    })
   }
 
   loadImage (image) {
     return new Promise((resolve, reject) => {
       image.setAttribute('src', image.getAttribute('data-at-lazy-load-src'))
+
       image.addEventListener('load', e => resolve(image))
     })
   }
