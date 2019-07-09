@@ -16,7 +16,7 @@ class LazyLoadingImages {
 
     const viewportHeight = window.innerHeight
 
-    const images = document.getElementsByTagName('img')
+    const images = document.querySelectorAll('[data-at-lazy-load-src]')
     for (var i = 0; i < images.length; i++) {
       const position = Math.floor(
         Math.abs(images[i].getBoundingClientRect().y / 1000)
