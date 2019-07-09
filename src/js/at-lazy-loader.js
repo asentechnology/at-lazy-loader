@@ -4,7 +4,11 @@ class LazyLoadingImages {
   constructor () {
     this.images = []
 
+    this.start = new Date().getTime()
+
     this.sortImages()
+
+    this.loadImages(0)
   }
 
   sortImages () {
@@ -25,17 +29,31 @@ class LazyLoadingImages {
     this.images = Object.values(sortedImages)
   }
 
-  // loadGroupOneImages () {
-  //   let promises = []
-  //   for (var i = 0; i < this.images.groupOne.length; i++) {
-  //     promises.push(this.loadImage(this.images.groupOne[i]))
-  //   }
-  //   return Promise.all(promises)
-  // }
+  loadImages (group) {
+    let promises = []
+
+    const groupImages = this.images[group]
+
+    for (var i = 0; i < groupImages.length; i++) {
+      promises.push(this.loadImage(groupImages[i]))
+    }
+
+    Promise.all(promises).then(() => {
+      console.log(
+        'group ' + group + ' loaded ',
+        (new Date().getTime() - this.start) / 1000
+      )
+
+      if (this.images[group + 1]) {
+        this.loadImages(group + 1)
+      }
+    })
+  }
 
   loadImage (image) {
     return new Promise((resolve, reject) => {
       image.setAttribute('src', image.getAttribute('data-at-lazy-load-src'))
+
       image.addEventListener('load', e => resolve(image))
     })
   }
