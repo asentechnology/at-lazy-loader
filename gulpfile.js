@@ -18,11 +18,11 @@ gulp.task('js', () =>
     .pipe(gulp.dest(destination))
 )
 
-gulp.task('files', function () {
-  return gulp.src('src/files/**/*').pipe(gulp.dest(destination))
-})
+gulp.task('files', () =>
+  gulp.src('src/files/**/*').pipe(gulp.dest(destination))
+)
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
   gulp.watch('src/js/**/*', gulp.series('js'))
   gulp.watch('src/files/**/*', gulp.series('files'))
 })
