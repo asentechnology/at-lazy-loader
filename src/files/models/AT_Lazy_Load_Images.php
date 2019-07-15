@@ -19,13 +19,19 @@ class AT_Lazy_Load_Images
   static function process_image($matches)
   {
     $attributes = wp_kses_hair($matches[2], wp_allowed_protocols());
+
     if (empty($attributes['src'])) {
       return $matches[0];
     }
+
     $image_src = $attributes['src']['value'];
+
     list($width, $height) = getimagesize($image_src);
+
     unset($attributes['src'], $attributes['data-lazy-src']);
+
     $attributes_str = self::build_attributes_string($attributes);
+
     return '<img src="' .
       AT_LAZY_LOADER_URL .
       'blank.png" data-at-lazy-load-src="' .
@@ -42,14 +48,17 @@ class AT_Lazy_Load_Images
   static function build_attributes_string($attributes)
   {
     $string = array();
+
     foreach ($attributes as $name => $attribute) {
       $value = $attribute['value'];
+
       if ('' === $value) {
         $string[] = sprintf('%s', $name);
       } else {
         $string[] = sprintf('%s="%s"', $name, esc_attr($value));
       }
     }
+
     return implode(' ', $string);
   }
 }
