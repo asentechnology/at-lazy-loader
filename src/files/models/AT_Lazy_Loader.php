@@ -17,7 +17,7 @@ class AT_Lazy_Loader
       'at-lazy-loader-script',
       AT_LAZY_LOADER_URL . 'at-lazy-loader.js',
       array(),
-      self::version,
+      time(),
       true
     );
   }

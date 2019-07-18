@@ -4,7 +4,9 @@ class AT_Lazy_Load_Images
 {
   function __construct()
   {
-    add_filter('the_content', array(__CLASS__, 'edit_content'), 99);
+    if (!is_admin()) {
+      add_filter('the_content', array(__CLASS__, 'edit_content'), 99);
+    }
   }
 
   static function edit_content($content)
@@ -60,5 +62,14 @@ class AT_Lazy_Load_Images
     }
 
     return implode(' ', $string);
+  }
+
+  static function console($string)
+  {
+    echo '<script>';
+    echo 'var results = `' . json_encode($string) . '`; ';
+    echo 'results = JSON.parse(results); ';
+    echo 'console.log(results); ';
+    echo '</script>';
   }
 }
