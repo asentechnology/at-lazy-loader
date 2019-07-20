@@ -18,13 +18,13 @@ gulp.task('js', () =>
     .pipe(gulp.dest(destination))
 )
 
-gulp.task('files', () =>
-  gulp.src('src/files/**/*').pipe(gulp.dest(destination))
+gulp.task('static', () =>
+  gulp.src('src/static/**/*').pipe(gulp.dest(destination))
 )
 
 gulp.task('watch', () => {
   gulp.watch('src/js/**/*', gulp.series('js'))
-  gulp.watch('src/files/**/*', gulp.series('files'))
+  gulp.watch('src/static/**/*', gulp.series('static'))
 })
 
-gulp.task('build', gulp.series('js', 'files'))
+gulp.task('build', gulp.series('js', 'static'))
