@@ -31,6 +31,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
+    "gulp-remove-empty-lines": "^0.1.0",
     "gulp-uglify": "^3.0.2",
     "prettier": "^1.17.1"
   }

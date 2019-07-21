@@ -29,5 +29,4 @@ class AT_Lazy_Loader
 }
 
 new AT_Lazy_Loader();
-
 ?>

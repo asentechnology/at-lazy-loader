@@ -5,6 +5,7 @@ import concat from 'gulp-concat'
 import addsrc from 'gulp-add-src'
 import browserify from 'gulp-browserify'
 import { phpMinify } from '@cedx/gulp-php-minify'
+import removeEmptyLines from 'gulp-remove-empty-lines'
 
 const jsSource = 'src/js'
 const phpSource = 'src/php'
@@ -33,6 +34,7 @@ gulp.task('php', () =>
     .pipe(phpMinify())
     .pipe(addsrc(`${phpSource}/plugin-info.php`))
     .pipe(concat('at-lazy-loader.php'))
+    .pipe(removeEmptyLines())
     .pipe(gulp.dest(destination))
 )
 
