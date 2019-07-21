@@ -2,6 +2,8 @@ var Promise = require('es6-promise-polyfill').Promise
 
 class LazyLoadingImages {
   constructor () {
+    this.developmentMode = false
+
     this.images = []
 
     this.start = new Date().getTime()
@@ -41,10 +43,12 @@ class LazyLoadingImages {
       }
 
       Promise.all(promises).then(() => {
-        console.log(
-          'group ' + group + ' loaded ',
-          (new Date().getTime() - this.start) / 1000
-        )
+        if (this.developmentMode) {
+          console.log(
+            'group ' + group + ' loaded ',
+            (new Date().getTime() - this.start) / 1000
+          )
+        }
 
         this.loadImages(group + 1)
       })

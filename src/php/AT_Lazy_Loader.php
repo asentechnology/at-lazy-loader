@@ -58,6 +58,8 @@ class AT_Lazy_Loader
       ? 'checked'
       : '';
     echo '> Low Res Image</label>';
+    echo '<p style="font-size: 11px;">Note: to use <i>Low Res Image</i> on already uploaded images, you will need to regenerate your thumbnails using ';
+    echo '<a href="https://wordpress.org/plugins/regenerate-thumbnails/" target="_blank">this</a> or a similar plugin.</p>';
     echo '<td></tr></tbody></table>';
     submit_button();
     echo '</form></div>';
