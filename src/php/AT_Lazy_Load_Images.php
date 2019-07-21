@@ -4,9 +4,16 @@ class AT_Lazy_Load_Images
 {
   function __construct()
   {
+    self::register_custom_image_size();
+
     if (!is_admin()) {
       add_filter('the_content', array(__CLASS__, 'edit_content'), 99);
     }
+  }
+
+  static function register_custom_image_size()
+  {
+    add_image_size('at-lazy-loader-low-res-image', 100);
   }
 
   static function edit_content($content)
@@ -28,23 +35,43 @@ class AT_Lazy_Load_Images
 
     $image_src = $attributes['src']['value'];
 
-    list($width, $height) = getimagesize($image_src);
+    $placeholder_image = self::get_placeholder($image_src);
 
     unset($attributes['src'], $attributes['data-lazy-src']);
 
     $attributes_str = self::build_attributes_string($attributes);
 
-    return '<img src="' .
-      plugin_dir_url(__FILE__) .
-      'blank.png" data-at-lazy-load-src="' .
-      $image_src .
-      '" width="' .
-      $width .
-      '" height="' .
-      $height .
-      '" ' .
-      $attributes_str .
-      '>';
+    $image = '<img src="';
+    $image .= $placeholder_image;
+    $image .= '" data-at-lazy-load-src="';
+    $image .= $image_src;
+    $image .= '" ';
+    $image .= $attributes_str;
+    $image .= '>';
+
+    return $image;
+  }
+
+  static function get_placeholder($image)
+  {
+    switch (get_option('at_lazy_loader_image_placeholder')) {
+      case 'low-res-image':
+        list($width, $height) = getimagesize($image);
+        $image_width = round((100 * $height) / $width);
+
+        $placeholder_image = preg_replace(
+          '/(\.[^.]+)$/',
+          sprintf('%s$1', '-100x' . $image_width),
+          $image
+        );
+        break;
+
+      case 'blank':
+        $placeholder_image = plugin_dir_url(__FILE__) . 'blank.png';
+        break;
+    }
+
+    return $placeholder_image;
   }
 
   static function build_attributes_string($attributes)
