@@ -7,6 +7,7 @@ class AT_Lazy_Loader
   function __construct()
   {
     add_action('wp_enqueue_scripts', array(__CLASS__, 'load_script'));
+    add_action('admin_init', array(__CLASS__, 'register_settings'));
 
     self::load_loaders();
   }
@@ -19,6 +20,15 @@ class AT_Lazy_Loader
       array(),
       time(),
       true
+    );
+  }
+
+  static function register_settings()
+  {
+    add_option('at_lazy_loader_image_placeholder', 'blank');
+    register_setting(
+      'at_lazy_loader_images',
+      'at_lazy_loader_image_placeholder'
     );
   }
 
