@@ -37,7 +37,7 @@ class AT_Lazy_Loader
   {
     add_options_page(
       'AT Lazy Loader',
-      'AT Lazy Loader',
+      'Lazy Loader',
       'manage_options',
       'at_lazy_loader_menu_slug',
       array(__CLASS__, 'at_lazy_loader_options_page')
@@ -47,24 +47,37 @@ class AT_Lazy_Loader
   static function at_lazy_loader_options_page()
   {
     $blank_selected =
-      get_option('at_lazy_loader_image_placeholder') == 'Blank'
+      get_option('at_lazy_loader_image_placeholder') == 'blank'
         ? 'selected'
         : '';
     $low_res_image_selected =
-      get_option('at_lazy_loader_image_placeholder') == 'Low Res Image'
+      get_option('at_lazy_loader_image_placeholder') == 'low-res-image'
         ? 'selected'
         : '';
     ?>
       <div>
         <h1>AT Lazy Loader</h1>
-        <h3>Image Settings</h3>
         <form method="post" action="options.php">
           <?php settings_fields('at_lazy_loader_settings'); ?>
-          <label for="at_lazy_loader_image_placeholder">Image Placeholder:</label>
-          <select id="at_lazy_loader_image_placeholder" name="at_lazy_loader_image_placeholder">
-            <option <?= $blank_selected ?>>Blank</option>
-            <option <?= $low_res_image_selected ?>>Low Res Image</option>
-          </select>
+          <table class="form-table">
+            <tbody>
+              <tr valign="top">
+                <th scope="row">Image Placeholder</th>
+                <td>
+                  <label>
+                    <input type="radio" name="at_lazy_loader_image_placeholder" value="blank" <?= $blank_selected
+                      ? 'checked'
+                      : '' ?>> Blank<br>
+                  </label>
+                  <label>
+                    <input type="radio" name="at_lazy_loader_image_placeholder" value="low-res-image" <?= $low_res_image_selected
+                      ? 'checked'
+                      : '' ?>> Low Res Image
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <?php submit_button(); ?>
         </form>
       </div>
