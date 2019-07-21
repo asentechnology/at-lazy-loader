@@ -35,7 +35,7 @@ class AT_Lazy_Load_Images
     $attributes_str = self::build_attributes_string($attributes);
 
     return '<img src="' .
-      AT_LAZY_LOADER_URL .
+      plugin_dir_url(__FILE__) .
       'blank.png" data-at-lazy-load-src="' .
       $image_src .
       '" width="' .
@@ -73,3 +73,4 @@ class AT_Lazy_Load_Images
     echo '</script>';
   }
 }
+?>

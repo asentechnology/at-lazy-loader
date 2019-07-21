@@ -15,7 +15,7 @@ class AT_Lazy_Loader
   {
     wp_enqueue_script(
       'at-lazy-loader-script',
-      AT_LAZY_LOADER_URL . 'at-lazy-loader.js',
+      plugin_dir_url(__FILE__) . 'at-lazy-loader.js',
       array(),
       time(),
       true
@@ -27,3 +27,7 @@ class AT_Lazy_Loader
     new AT_Lazy_Load_Images();
   }
 }
+
+new AT_Lazy_Loader();
+
+?>
