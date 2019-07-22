@@ -35,7 +35,9 @@ class AT_Lazy_Load_Images
 
     $image_src = $attributes['src']['value'];
 
-    $placeholder_image = self::get_placeholder($image_src);
+    list($width, $height) = getimagesize($image_src);
+
+    $placeholder_image = self::get_placeholder($image_src, $width, $height);
 
     unset($attributes['src'], $attributes['data-lazy-src']);
 
@@ -45,6 +47,10 @@ class AT_Lazy_Load_Images
     $image .= $placeholder_image;
     $image .= '" data-at-lazy-load-src="';
     $image .= $image_src;
+    $image .= '" width="';
+    $image .= $width;
+    $image .= '" height="';
+    $image .= $height;
     $image .= '" ';
     $image .= $attributes_str;
     $image .= '>';
@@ -52,11 +58,10 @@ class AT_Lazy_Load_Images
     return $image;
   }
 
-  static function get_placeholder($image)
+  static function get_placeholder($image, $width, $height)
   {
     switch (get_option('at_lazy_loader_image_placeholder')) {
       case 'low-res-image':
-        list($width, $height) = getimagesize($image);
         $image_width = round((100 * $height) / $width);
 
         $placeholder_image = preg_replace(
