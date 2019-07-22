@@ -18,7 +18,7 @@ class LazyLoadingImages {
 
     const viewportHeight = window.innerHeight
 
-    const images = document.querySelectorAll('[data-at-lazy-load-src]')
+    const images = document.querySelectorAll('[data-at-lazy-loader-src]')
 
     for (var i = 0; i < images.length; i++) {
       const position = Math.floor(
@@ -57,7 +57,7 @@ class LazyLoadingImages {
 
   loadImage (image) {
     return new Promise((resolve, reject) => {
-      image.setAttribute('src', image.getAttribute('data-at-lazy-load-src'))
+      image.setAttribute('src', image.getAttribute('data-at-lazy-loader-src'))
 
       image.addEventListener('load', e => resolve(image))
     })

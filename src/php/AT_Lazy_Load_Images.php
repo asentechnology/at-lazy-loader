@@ -56,7 +56,7 @@ class AT_Lazy_Load_Images
 
     $image = '<img src="';
     $image .= $placeholder_image;
-    $image .= '" data-at-lazy-load-src="';
+    $image .= '" data-at-lazy-loader-src="';
     $image .= $image_src;
     $image .= '" width="';
     $image .= $width;
