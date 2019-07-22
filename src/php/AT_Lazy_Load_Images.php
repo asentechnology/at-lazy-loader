@@ -7,13 +7,24 @@ class AT_Lazy_Load_Images
     self::register_custom_image_size();
 
     if (!is_admin()) {
-      add_filter('the_content', array(__CLASS__, 'edit_content'), 99);
+      add_action('wp_head', array(__CLASS__, 'buffer_start'));
+      add_action('wp_footer', array(__CLASS__, 'buffer_end'));
     }
   }
 
   static function register_custom_image_size()
   {
     add_image_size('at-lazy-loader-low-res-image', 100);
+  }
+
+  static function buffer_start()
+  {
+    ob_start(array(__CLASS__, 'edit_content'));
+  }
+
+  static function buffer_end()
+  {
+    ob_end_flush();
   }
 
   static function edit_content($content)
