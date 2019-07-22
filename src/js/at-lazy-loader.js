@@ -59,7 +59,11 @@ class LazyLoadingImages {
     return new Promise((resolve, reject) => {
       image.setAttribute('src', image.getAttribute('data-at-lazy-loader-src'))
 
-      image.addEventListener('load', e => resolve(image))
+      image.addEventListener('load', e => {
+        image.removeAttribute('width')
+        image.removeAttribute('height')
+        resolve(image)
+      })
     })
   }
 }
