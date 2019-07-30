@@ -10,7 +10,7 @@
     "url": "git://github.com/mcmanussean/at-lazy-loader.git"
   },
   "scripts": {
-    "watch": "gulp watch",
+    "start": "gulp",
     "build": "gulp build"
   },
   "devDependencies": {

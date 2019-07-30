@@ -42,10 +42,12 @@ gulp.task('static', () =>
   gulp.src(`${staticSource}/**/*`).pipe(gulp.dest(destination))
 )
 
+gulp.task('build', gulp.series('js', 'php', 'static'))
+
 gulp.task('watch', () => {
   gulp.watch(`${jsSource}/**/*`, gulp.series('js'))
   gulp.watch(`${phpSource}/**/*`, gulp.series('php'))
   gulp.watch(`${staticSource}/**/*`, gulp.series('static'))
 })
 
-gulp.task('build', gulp.series('js', 'php', 'static'))
+gulp.task('default', gulp.series('build', 'watch'))
