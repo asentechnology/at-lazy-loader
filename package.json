@@ -7,7 +7,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mcmanussean/at-lazy-loader.git"
+    "url": "git://github.com/asentechnology/at-lazy-loader.git"
   },
   "scripts": {
     "start": "gulp",
