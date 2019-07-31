@@ -1,6 +1,6 @@
 # Asen Technology Lazy Loader
 
-Builds a wordpress plugin that lazy loads images using either a blank or a low-res image.
+Builds a Wordpress plugin that lazy loads images using either a blank or a low-res image.
 
 ## Getting Started
 
@@ -10,7 +10,7 @@ Builds a wordpress plugin that lazy loads images using either a blank or a low-r
 $ npm i
 ```
 
-2. Start app
+2. Start development
 
 ```
 $ npm start
@@ -18,7 +18,7 @@ $ npm start
 
 ## Building
 
-#### To build a production version of the app
+#### To build a production version of the plugin
 
 ```
 $ npm run build
@@ -26,4 +26,4 @@ $ npm run build
 
 #### Notes:
 
-- The app will be built in the `/dist` directory
+- The plugin will be built in the `/dist` directory
