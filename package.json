@@ -1,7 +1,7 @@
 {
   "name": "at-lazy-loader",
   "version": "1.0.0",
-  "description": "Lazy loads assets into a Wordpress Site",
+  "description": "Builds a Wordpress plugin that lazy loads images using either a blank or a low-res image.",
   "author": "Asen Technology",
   "homepage": "https://www.asentechnology.com",
   "license": "ISC",
