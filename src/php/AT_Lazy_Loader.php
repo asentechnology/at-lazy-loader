@@ -19,7 +19,7 @@ class AT_Lazy_Loader
       'at-lazy-loader-script',
       plugin_dir_url(__FILE__) . 'at-lazy-loader.js',
       array(),
-      time(),
+      self::version,
       true
     );
   }
