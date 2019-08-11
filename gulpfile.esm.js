@@ -1,4 +1,5 @@
 import gulp from 'gulp'
+import clean from 'gulp-clean'
 import babel from 'gulp-babel'
 import uglify from 'gulp-uglify'
 import concat from 'gulp-concat'
@@ -11,6 +12,8 @@ const jsSource = 'src/js'
 const phpSource = 'src/php'
 const staticSource = 'src/static'
 const destination = 'dist/at-lazy-loader'
+
+gulp.task('clean', () => gulp.src('dist', { read: false }).pipe(clean()))
 
 gulp.task('js', () =>
   gulp
@@ -42,7 +45,7 @@ gulp.task('static', () =>
   gulp.src(`${staticSource}/**/*`).pipe(gulp.dest(destination))
 )
 
-gulp.task('build', gulp.series('js', 'php', 'static'))
+gulp.task('build', gulp.series('clean', 'js', 'php', 'static'))
 
 gulp.task('watch', () => {
   gulp.watch(`${jsSource}/**/*`, gulp.series('js'))
