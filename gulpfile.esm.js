@@ -5,6 +5,7 @@ import uglify from 'gulp-uglify'
 import concat from 'gulp-concat'
 import addsrc from 'gulp-add-src'
 import browserify from 'gulp-browserify'
+import svnUltimate from 'node-svn-ultimate'
 import { phpMinify } from '@cedx/gulp-php-minify'
 import removeEmptyLines from 'gulp-remove-empty-lines'
 
@@ -13,7 +14,7 @@ const phpSource = 'src/php'
 const staticSource = 'src/static'
 const destination = 'dist/at-lazy-loader'
 
-gulp.task('clean', () => gulp.src('dist', { read: false }).pipe(clean()))
+gulp.task('clean', () => gulp.src('dist', { allowEmpty: true }).pipe(clean()))
 
 gulp.task('js', () =>
   gulp
@@ -45,6 +46,45 @@ gulp.task('static', () =>
   gulp.src(`${staticSource}/**/*`).pipe(gulp.dest(destination))
 )
 
+gulp.task('svn-checkout', done => {
+  svnUltimate.commands.checkout(
+    'https://plugins.svn.wordpress.org/at-lazy-loader',
+    '/Users/sean/Software-Projects/at-lazy-loader/dist/svn',
+    error => {
+      if (error) console.log(error)
+      done()
+    }
+  )
+})
+
+gulp.task('svn-update', () =>
+  gulp.src(`${destination}/**/*`).pipe(gulp.dest('dist/svn/trunk'))
+)
+
+gulp.task('svn-add', done => {
+  svnUltimate.commands.add(
+    'dist/svn/trunk/*',
+    {
+      force: true
+    },
+    error => {
+      if (error) console.log(error)
+      done()
+    }
+  )
+})
+
+gulp.task('svn-commit', done => {
+  svnUltimate.commands.commit(
+    'dist/svn',
+    { username: 'asentechnology', params: ['-m "Version 1.0.0"'] },
+    error => {
+      if (error) console.log(error)
+      done()
+    }
+  )
+})
+
 gulp.task('build', gulp.series('clean', 'js', 'php', 'static'))
 
 gulp.task('watch', () => {
@@ -54,3 +94,8 @@ gulp.task('watch', () => {
 })
 
 gulp.task('default', gulp.series('build', 'watch'))
+
+gulp.task(
+  'publish',
+  gulp.series('build', 'svn-checkout', 'svn-update', 'svn-add', 'svn-commit')
+)
