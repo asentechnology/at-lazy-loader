@@ -9,8 +9,10 @@ import svnUltimate from 'node-svn-ultimate'
 import { phpMinify } from '@cedx/gulp-php-minify'
 import removeEmptyLines from 'gulp-remove-empty-lines'
 
+const svn = 'dist/svn'
 const jsSource = 'src/js'
 const phpSource = 'src/php'
+const trunk = 'dist/svn/trunk'
 const staticSource = 'src/static'
 const destination = 'dist/at-lazy-loader'
 
@@ -57,22 +59,29 @@ gulp.task('svn-checkout', done => {
   )
 })
 
-gulp.task('svn-update', () =>
-  gulp.src(`${destination}/**/*`).pipe(gulp.dest('dist/svn/trunk'))
-)
-
-gulp.task('svn-add', done => {
-  svnUltimate.commands.add(
-    'dist/svn/trunk/*',
-    {
-      force: true
-    },
-    error => {
-      if (error) console.log(error)
-      done()
+gulp.task(
+  'svn-update',
+  gulp.series(
+    () => gulp.src(trunk, { allowEmpty: true }).pipe(clean()),
+    () => gulp.src(`${destination}/**/*`).pipe(gulp.dest(trunk)),
+    done => {
+      let items = {
+        unversioned: [],
+        missing: []
+      }
+      svnUltimate.commands.status(svn, (error, status) => {
+        ;[].concat(status.target.entry).forEach(item => {
+          items[item['wc-status'].$.item].push(item.$.path)
+        })
+        svnUltimate.commands.del(items.missing, () => {
+          svnUltimate.commands.add(items.unversioned, () => {
+            done()
+          })
+        })
+      })
     }
   )
-})
+)
 
 gulp.task('svn-commit', done => {
   svnUltimate.commands.commit(
@@ -97,5 +106,5 @@ gulp.task('default', gulp.series('build', 'watch'))
 
 gulp.task(
   'publish',
-  gulp.series('build', 'svn-checkout', 'svn-update', 'svn-add', 'svn-commit')
+  gulp.series('build', 'svn-checkout', 'svn-update', 'svn-commit')
 )
