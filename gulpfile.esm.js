@@ -17,6 +17,7 @@ const phpSource = 'src/php'
 const trunk = 'dist/svn/trunk'
 const staticSource = 'src/static'
 const destination = 'dist/at-lazy-loader'
+const tags = `dist/svn/tags/${pkg.version}`
 
 gulp.task('clean', () => gulp.src('dist', { allowEmpty: true }).pipe(clean()))
 
@@ -66,6 +67,7 @@ gulp.task(
   gulp.series(
     () => gulp.src(trunk, { allowEmpty: true }).pipe(clean()),
     () => gulp.src(`${destination}/**/*`).pipe(gulp.dest(trunk)),
+    () => gulp.src(`${destination}/**/*`).pipe(gulp.dest(tags)),
     done => {
       svnUltimate.commands.status(svn, (error, status) => {
         const items = [].concat(status.target.entry || [])

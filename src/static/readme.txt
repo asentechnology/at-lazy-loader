@@ -3,7 +3,7 @@ Contributors: asentechnology
 Tags: lazy loading
 Tested up to: 5.2.2
 Requires PHP: 5.2.4
-Stable tag: 1.6.8
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
