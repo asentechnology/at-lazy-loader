@@ -65,14 +65,17 @@ gulp.task(
     () => gulp.src(trunk, { allowEmpty: true }).pipe(clean()),
     () => gulp.src(`${destination}/**/*`).pipe(gulp.dest(trunk)),
     done => {
-      let items = {
-        unversioned: [],
-        missing: []
-      }
       svnUltimate.commands.status(svn, (error, status) => {
-        ;[].concat(status.target.entry).forEach(item => {
-          items[item['wc-status'].$.item].push(item.$.path)
-        })
+        const items = [].concat(status.target.entry || [])
+
+        const addItems = items
+          .filter(item => item['wc-status'].$.item == 'unversioned')
+          .map(item => item.$.path)
+
+        const delItems = items
+          .filter(item => item['wc-status'].$.item == 'missing')
+          .map(item => item.$.path)
+
         svnUltimate.commands.del(items.missing, () => {
           svnUltimate.commands.add(items.unversioned, () => {
             done()
