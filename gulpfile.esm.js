@@ -9,6 +9,8 @@ import svnUltimate from 'node-svn-ultimate'
 import { phpMinify } from '@cedx/gulp-php-minify'
 import removeEmptyLines from 'gulp-remove-empty-lines'
 
+const pkg = require('./package.json')
+
 const svn = 'dist/svn'
 const jsSource = 'src/js'
 const phpSource = 'src/php'
@@ -106,7 +108,7 @@ gulp.task(
 gulp.task('svn-commit', done => {
   svnUltimate.commands.commit(
     'dist/svn',
-    { username: 'asentechnology', params: ['-m "Version 1.0.0"'] },
+    { username: 'asentechnology', params: [`-m "Version ${pkg.version}"`] },
     error => {
       if (error) console.log(error)
       done()
