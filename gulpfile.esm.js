@@ -76,10 +76,27 @@ gulp.task(
           .filter(item => item['wc-status'].$.item == 'missing')
           .map(item => item.$.path)
 
-        svnUltimate.commands.del(items.missing, () => {
-          svnUltimate.commands.add(items.unversioned, () => {
-            done()
+        Promise.all([
+          new Promise((resolve, reject) => {
+            if (addItems.length) {
+              svnUltimate.commands.add(addItems, () => {
+                resolve()
+              })
+            } else {
+              resolve()
+            }
+          }),
+          new Promise((resolve, reject) => {
+            if (delItems.length) {
+              svnUltimate.commands.del(delItems, () => {
+                resolve()
+              })
+            } else {
+              resolve()
+            }
           })
+        ]).then(() => {
+          done()
         })
       })
     }
